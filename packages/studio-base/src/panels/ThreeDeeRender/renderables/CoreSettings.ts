@@ -6,6 +6,7 @@ import { cloneDeep, round, set } from "lodash";
 
 import { SettingsTreeAction } from "@foxglove/studio";
 
+import { DEFAULT_STL_UP_AXIS } from "../ModelCache";
 import { FollowMode, Renderer, RendererConfig } from "../Renderer";
 import { SceneExtension } from "../SceneExtension";
 import { SettingsTreeEntry } from "../SettingsManager";
@@ -149,14 +150,18 @@ export class CoreSettings extends SceneExtension {
                   ? "This setting requires a restart to take effect"
                   : undefined,
             },
-            ignoreStlUpAxis: {
-              label: "Ignore STL <up_axis>",
+            stlUpAxis: {
+              label: "STL up axis",
               help: "Match the behavior of rviz by ignoring the <up_axis> tag in STL files",
-              input: "boolean",
-              value: config.scene.ignoreStlUpAxis,
+              input: "select",
+              value: config.scene.stlUpAxis ?? DEFAULT_STL_UP_AXIS,
+              options: [
+                { label: "Y axis", value: "y_up" },
+                { label: "Z axis", value: "z_up" },
+              ],
               error:
-                (config.scene.ignoreStlUpAxis ?? false) !==
-                this.renderer.modelCache.options.ignoreStlUpAxis
+                (config.scene.stlUpAxis ?? DEFAULT_STL_UP_AXIS) !==
+                this.renderer.modelCache.options.stlUpAxis
                   ? "This setting requires a restart to take effect"
                   : undefined,
             },

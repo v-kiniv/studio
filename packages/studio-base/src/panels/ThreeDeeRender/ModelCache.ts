@@ -16,10 +16,13 @@ import Logger from "@foxglove/log";
 
 const log = Logger.getLogger(__filename);
 
+export type StlUpAxis = "y_up" | "z_up";
+export const DEFAULT_STL_UP_AXIS: StlUpAxis = "y_up";
+
 export type ModelCacheOptions = {
   edgeMaterial: THREE.Material;
   ignoreColladaUpAxis: boolean;
-  ignoreStlUpAxis: boolean;
+  stlUpAxis: StlUpAxis;
 };
 
 type LoadModelOptions = {
@@ -100,7 +103,7 @@ export class ModelCache {
 
     // Check if this is a STL file based on content-type or file extension
     if (STL_MIME_TYPES.includes(contentType) || /\.stl$/i.test(url)) {
-      return loadSTL(url, buffer, this.options.ignoreStlUpAxis);
+      return loadSTL(url, buffer, this.options.stlUpAxis);
     }
 
     // Check if this is a COLLADA file based on content-type or file extension
@@ -146,8 +149,7 @@ async function loadGltf(url: string, reportError: ErrorCallback): Promise<Loaded
 function loadSTL(
   url: string,
   buffer: ArrayBuffer,
-  // eslint-disable-next-line @foxglove/no-boolean-parameters
-  ignoreUpAxis: boolean,
+  stlUpAxis: StlUpAxis,
 ): LoadedModel {
   // STL files do not reference any external assets, no LoadingManager needed
   const stlLoader = new STLLoader();
@@ -166,7 +168,7 @@ function loadSTL(
 
   // THREE.js uses Y-up, while Studio follows the ROS
   // [REP-0103](https://www.ros.org/reps/rep-0103.html) convention of Z-up
-  if (!ignoreUpAxis) {
+  if (stlUpAxis === "y_up") {
     group.rotateX(Math.PI / 2);
   }
 
