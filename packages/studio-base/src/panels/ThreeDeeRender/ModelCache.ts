@@ -143,10 +143,12 @@ async function loadGltf(url: string, reportError: ErrorCallback): Promise<Loaded
   return gltf.scene;
 }
 
-function loadSTL(url: string, buffer: ArrayBuffer,
-    // eslint-disable-next-line @foxglove/no-boolean-parameters
-    ignoreUpAxis: boolean,
-    ): LoadedModel {
+function loadSTL(
+  url: string,
+  buffer: ArrayBuffer,
+  // eslint-disable-next-line @foxglove/no-boolean-parameters
+  ignoreUpAxis: boolean,
+): LoadedModel {
   // STL files do not reference any external assets, no LoadingManager needed
   const stlLoader = new STLLoader();
   const bufferGeometry = stlLoader.parse(buffer);
