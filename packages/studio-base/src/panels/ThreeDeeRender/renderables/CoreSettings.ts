@@ -149,6 +149,17 @@ export class CoreSettings extends SceneExtension {
                   ? "This setting requires a restart to take effect"
                   : undefined,
             },
+            ignoreStlUpAxis: {
+              label: "Ignore STL <up_axis>",
+              help: "Match the behavior of rviz by ignoring the <up_axis> tag in STL files",
+              input: "boolean",
+              value: config.scene.ignoreStlUpAxis,
+              error:
+                (config.scene.ignoreStlUpAxis ?? false) !==
+                this.renderer.modelCache.options.ignoreStlUpAxis
+                  ? "This setting requires a restart to take effect"
+                  : undefined,
+            },
           },
           children: {
             cameraState: {

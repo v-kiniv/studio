@@ -19,6 +19,7 @@ const log = Logger.getLogger(__filename);
 export type ModelCacheOptions = {
   edgeMaterial: THREE.Material;
   ignoreColladaUpAxis: boolean;
+  ignoreStlUpAxis: boolean;
 };
 
 type LoadModelOptions = {
@@ -99,7 +100,7 @@ export class ModelCache {
 
     // Check if this is a STL file based on content-type or file extension
     if (STL_MIME_TYPES.includes(contentType) || /\.stl$/i.test(url)) {
-      return loadSTL(url, buffer);
+      return loadSTL(url, buffer, this.options.ignoreStlUpAxis);
     }
 
     // Check if this is a COLLADA file based on content-type or file extension
@@ -142,7 +143,10 @@ async function loadGltf(url: string, reportError: ErrorCallback): Promise<Loaded
   return gltf.scene;
 }
 
-function loadSTL(url: string, buffer: ArrayBuffer): LoadedModel {
+function loadSTL(url: string, buffer: ArrayBuffer,
+    // eslint-disable-next-line @foxglove/no-boolean-parameters
+    ignoreUpAxis: boolean,
+    ): LoadedModel {
   // STL files do not reference any external assets, no LoadingManager needed
   const stlLoader = new STLLoader();
   const bufferGeometry = stlLoader.parse(buffer);
@@ -160,7 +164,9 @@ function loadSTL(url: string, buffer: ArrayBuffer): LoadedModel {
 
   // THREE.js uses Y-up, while Studio follows the ROS
   // [REP-0103](https://www.ros.org/reps/rep-0103.html) convention of Z-up
-  group.rotateX(Math.PI / 2);
+  if (!ignoreUpAxis) {
+    group.rotateX(Math.PI / 2);
+  }
 
   return group;
 }
