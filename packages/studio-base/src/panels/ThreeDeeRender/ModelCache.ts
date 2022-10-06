@@ -146,10 +146,7 @@ async function loadGltf(url: string, reportError: ErrorCallback): Promise<Loaded
   return gltf.scene;
 }
 
-function loadSTL(
-  url: string,
-  buffer: ArrayBuffer,
-  stlUpAxis: StlUpAxis,
+function loadSTL(url: string, buffer: ArrayBuffer, stlUpAxis: StlUpAxis
 ): LoadedModel {
   // STL files do not reference any external assets, no LoadingManager needed
   const stlLoader = new STLLoader();
