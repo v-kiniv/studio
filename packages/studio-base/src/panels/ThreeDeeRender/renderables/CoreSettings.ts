@@ -152,7 +152,7 @@ export class CoreSettings extends SceneExtension {
             },
             stlUpAxis: {
               label: "STL up axis",
-              help: "Match the behavior of rviz by ignoring the <up_axis> tag in STL files",
+              help: "The direction to use as “up” when loading meshes without orientation info",
               input: "select",
               value: config.scene.stlUpAxis ?? DEFAULT_STL_UP_AXIS,
               options: [
