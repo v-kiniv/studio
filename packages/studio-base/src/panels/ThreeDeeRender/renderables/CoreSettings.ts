@@ -6,7 +6,7 @@ import { cloneDeep, round, set } from "lodash";
 
 import { SettingsTreeAction } from "@foxglove/studio";
 
-import { DEFAULT_STL_UP_AXIS } from "../ModelCache";
+import { DEFAULT_MESH_UP_AXIS } from "../ModelCache";
 import { FollowMode, Renderer, RendererConfig } from "../Renderer";
 import { SceneExtension } from "../SceneExtension";
 import { SettingsTreeEntry } from "../SettingsManager";
@@ -150,18 +150,18 @@ export class CoreSettings extends SceneExtension {
                   ? "This setting requires a restart to take effect"
                   : undefined,
             },
-            stlUpAxis: {
-              label: "STL up axis",
-              help: "The direction to use as “up” when loading meshes without orientation info",
+            meshUpAxis: {
+              label: "Mesh up axis",
+              help: "The direction to use as “up” when loading meshes without orientation info(STL, OBJ)",
               input: "select",
-              value: config.scene.stlUpAxis ?? DEFAULT_STL_UP_AXIS,
+              value: config.scene.meshUpAxis ?? DEFAULT_MESH_UP_AXIS,
               options: [
-                { label: "Y axis", value: "y_up" },
-                { label: "Z axis", value: "z_up" },
+                { label: "Y-up", value: "y_up" },
+                { label: "Z-up", value: "z_up" },
               ],
               error:
-                (config.scene.stlUpAxis ?? DEFAULT_STL_UP_AXIS) !==
-                this.renderer.modelCache.options.stlUpAxis
+                (config.scene.meshUpAxis ?? DEFAULT_MESH_UP_AXIS) !==
+                this.renderer.modelCache.options.meshUpAxis
                   ? "This setting requires a restart to take effect"
                   : undefined,
             },
