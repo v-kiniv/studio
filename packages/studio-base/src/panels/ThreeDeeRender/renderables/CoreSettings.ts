@@ -152,7 +152,7 @@ export class CoreSettings extends SceneExtension {
             },
             meshUpAxis: {
               label: "Mesh up axis",
-              help: "The direction to use as “up” when loading meshes without orientation info(STL, OBJ)",
+              help: "The direction to use as “up” when loading meshes without orientation info (STL and OBJ)",
               input: "select",
               value: config.scene.meshUpAxis ?? DEFAULT_MESH_UP_AXIS,
               options: [
